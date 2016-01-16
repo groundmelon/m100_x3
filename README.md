@@ -31,5 +31,5 @@ And add `/home/ubuntu/pre_x3` into `/etc/rc.local`
 
 ### Steps for streaming video from X3 to Manifold with a hdmi-screen
 
-Same as 1, 2, 6 above
+Same as 1, 5, 6 above
 
