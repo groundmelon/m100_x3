@@ -20,16 +20,18 @@ This package is based on [dji_sdk_manifold_read_cam](https://github.com/dji-sdk/
     echo -e '#!/bin/bash\nxinit&' > /home/ubuntu/pre_x3
     chmod a+x /home/ubuntu/pre_x3
     ```
-And add `/home/ubuntu/pre_x3` into `/etc/rc.local`
+   And add `/home/ubuntu/pre_x3` into `/etc/rc.local`
 
 4. Add ```export DISPLAY=:0``` to your bashrc or remember to set this environment variable to THE USER WHO WILL RUN THE CODE
 
-5. Run ```sudo -s``` to grant root privilege, because the driver needs to operate many `/dev` `/sys` stuffs
+5. (Maybe a reboot here)
 
-6. ```rosrun m100_x3 m100_x3_node```
+6. Run ```sudo -s``` to grant root privilege, because the driver needs to operate many `/dev` `/sys` stuffs
+
+7. ```rosrun m100_x3 m100_x3_node```
 
 
 ### Steps for streaming video from X3 to Manifold with a hdmi-screen
 
-Same as 1, 5, 6 above
+Same as 1, 6, 7 above
 
