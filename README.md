@@ -8,7 +8,7 @@ This package is based on [dji_sdk_manifold_read_cam](https://github.com/dji-sdk/
 
 1. Install all the prerequisites in [dji-sdk/Manifold-Cam](https://github.com/dji-sdk/Manifold-Cam)
 
-2. (Optinal) Disable lightdm for stability:
+2. (Optional) Disable lightdm for stability:
 
     in `/etc/init/lightdm.conf`, line 12:
     
