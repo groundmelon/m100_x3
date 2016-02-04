@@ -132,6 +132,7 @@ catkin_package(
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
+  server/include
 )
 
 ## Declare a C++ library
@@ -150,6 +151,9 @@ add_executable(m100_x3_node
     src/djicam_utils.cpp
 )
 
+add_executable(m100_x3_client_node 
+    src/m100_x3_client_node.cpp
+)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(m100_x3_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
@@ -157,6 +161,10 @@ add_executable(m100_x3_node
 ## Specify libraries to link a library or executable target against
 target_link_libraries(m100_x3_node
   dcam
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(m100_x3_client_node
   ${catkin_LIBRARIES}
 )
 

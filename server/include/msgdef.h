@@ -9,7 +9,8 @@ static const uint32_t IMAGE_W = 1280;
 static const uint32_t IMAGE_H = 720;
 static const uint32_t IMAGE_CH = 1;
 static const uint32_t HEADER_LEN = 1 * sizeof(uint32_t) + 3 * sizeof(uint32_t) + 2 * sizeof(uint32_t);
-static const uint32_t TOTAL_LEN = HEADER_LEN+IMAGE_W*IMAGE_H*IMAGE_CH;
+static const uint32_t IMG_DATA_LEN = IMAGE_W*IMAGE_H*IMAGE_CH;
+static const uint32_t TOTAL_LEN = HEADER_LEN+IMG_DATA_LEN;
 
 class ImageMsgHeader {
 public:
