@@ -2,11 +2,26 @@
 
 A ROS package which can read video stream from Zenmuse-X3-Camera on M100 and publish it as [sensor_msgs/Image](http://docs.ros.org/api/sensor_msgs/html/msg/Image.html). Must be compiled and launched on Manifold.
 
-This package is based on [dji_sdk_manifold_read_cam](https://github.com/dji-sdk/Onboard-SDK-ROS/tree/2.3/dji_sdk_manifold_read_cam) and [dji-sdk/Manifold-Cam](https://github.com/dji-sdk/Manifold-Cam). Refer to them for more infomation.
+This package is based on [dji_sdk_manifold_read_cam](https://github.com/dji-sdk/Onboard-SDK-ROS/tree/2.3/dji_sdk_manifold_read_cam) and [dji-sdk/Manifold-Cam](https://github.com/dji-sdk/Manifold-Cam). Read their documents and codes before continuing.
 
-### Steps for streaming video from X3 to Manifold, through SSH, without a hdmi-screen
+## Background and Technical Details
 
-1. Install all the prerequisites in [dji-sdk/Manifold-Cam](https://github.com/dji-sdk/Manifold-Cam)
+Manifold will cut off video signal between gimbal camera and video transmitter, so you will NOT see the live video on the DJI GO App, until the driver is launched in transfer mode. But this is not convenient if you don't want to take-a-laptop-and-ssh-to-manifold-and-launch-the-driver-manually.
+
+Obviously, it's better to run the driver as a background daemon at system startup than run it manually every time. However, the driver is not reentrant, which means if a background driver instance is running, we can not run another driver instance to get the video (and show/publish to ros).
+
+In order to solve this problem, a server which provides video acqusition service is provided in this package. And a manually launched driver with ros interface is also provided.
+
+For manually launched driver, the source code is src/m100_x3_node.cpp. This file will initialize the X3 camera driver, read video data and publish the data as sensor_msgs/Image. Since the initialization need root privilege, you must excute ```sudo -s``` to grant root privilege before rosrun/roslaunch.
+
+For server type driver, the server source code is src/server/src/x3server.cpp. The server will be launched automatically by the __upstart__ system in ubuntu after installed. The server will initialize the x3 camera driver, and open a TCP port @ localhost:40042, block at socket accept function. When a client is connected, accept function will return, and the server will get video data from the initialized driver and send the data to the client. If the client is unconnected, the server will go back to accept mode for the next client. Currently, server only accpet on client at the same time.
+
+The client source code is src/xxxxxx. The client will try to connect to localhost:40042, and read data and interpret it as a predefined size-and-type image, and publish it as ros message.
+
+## Steps For Manully Launched ROS Driver
+### If you want to streaming video from X3 to Manifold, through SSH, without a hdmi-screen
+
+1. Install all the prerequisites in [dji-sdk/Manifold-Cam](https://github.com/dji-sdk/Manifold-Cam) (Mainly aims to install libdcam.so in the system)
 
 2. (Optional) Disable lightdm for stability:
 
@@ -31,7 +46,24 @@ This package is based on [dji_sdk_manifold_read_cam](https://github.com/dji-sdk/
 7. ```rosrun m100_x3 m100_x3_node```
 
 
-### Steps for streaming video from X3 to Manifold with a hdmi-screen
+### If you want to streaming video from X3 to Manifold with a hdmi-screen
 
 Same as 1, 6, 7 above
 
+## Steps For System Service and Client Type
+
+1. Install all the prerequisites in [dji-sdk/Manifold-Cam](https://github.com/dji-sdk/Manifold-Cam) (Mainly aims to install libdcam.so in the system)
+
+2. cd src/server && make && sudo make install. This step will install the essential scripts and excutables into the system to utilize the startup system.
+
+3. You can use ```sudo service x3server start/stop/status``` to operate the x3 driver service. Useful output/log can be seen from /var/log/x3server.log
+
+4. To prevent automatic startup, edit /etc/init/x3server.conf, in start on item, change [!06] to [!0123456]
+
+## Some bugs and todos
+
+1. The dcam library uses some unusual techniques to handle SIGINT/SIGTERM to shutdown. And combined with socket, lots of efforts were devoted to handle termination of the server, but it is still not perfect. So there is a chance to fail on stopping the server. When the server is not running properly, a system reboot is recommanded.
+
+2. Now, the server and client only support full-size grayscale image. Support of RGB and resized image should be added.
+
+3. The port number 40042 is hardcoded in src/server/include/msgdef.h. Maybe it needs to change to other port number if this one is invalid, and the client should be able to find out the new port number.
