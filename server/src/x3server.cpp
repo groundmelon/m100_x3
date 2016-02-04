@@ -96,9 +96,7 @@ int main() {
                                  boost::asio::placeholders::error,  
                                  boost::ref(io_service)));
                 io_service.run();
-                // usleep(1000000/2);
-                cam_func_ret = manifold_cam_read(imgbuf, &cam_nframe, CAM_NON_BLOCK);
-                if (cam_func_ret==-1) {
+                if (manifold_cam_exit()) {
                     cam_is_on = false;
                     break;
                 }

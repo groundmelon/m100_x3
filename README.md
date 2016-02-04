@@ -18,6 +18,9 @@ For server type driver, the server source code is src/server/src/x3server.cpp. T
 
 The client source code is src/xxxxxx. The client will try to connect to localhost:40042, and read data and interpret it as a predefined size-and-type image, and publish it as ros message.
 
+Attention: after x3 gimbal camera driver is initialized, it will have a 50% usage of one cpu core. Please consider carefully if a 50%-cpu-usage-service will affect the performance of other programs
+
+
 ## Steps For Manully Launched ROS Driver
 ### If you want to streaming video from X3 to Manifold, through SSH, without a hdmi-screen
 
@@ -56,7 +59,7 @@ Same as 1, 6, 7 above
 
 2. cd src/server && make && sudo make install. This step will install the essential scripts and excutables into the system to utilize the startup system.
 
-3. You can use ```sudo service x3server start/stop/status``` to operate the x3 driver service. Useful output/log can be seen from /var/log/x3server.log
+3. You can use ```sudo service x3server start/stop/status``` to operate the x3 driver service. Useful output/log can be seen from /var/log/upstart/x3server.log
 
 4. To prevent automatic startup, edit /etc/init/x3server.conf, in start on item, change [!06] to [!0123456]
 
