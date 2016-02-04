@@ -1,3 +1,4 @@
 #!/bin/bash
+xinit&
 export DISPLAY=:0
-exec /usr/local/bin/x3server &> /tmp/x3server-std.log
+exec /usr/local/bin/x3server
