@@ -4,19 +4,19 @@ A ROS package which can read video stream from Zenmuse-X3-Camera on M100 and pub
 
 This package is based on [dji_sdk_manifold_read_cam](https://github.com/dji-sdk/Onboard-SDK-ROS/tree/2.3/dji_sdk_manifold_read_cam) and [dji-sdk/Manifold-Cam](https://github.com/dji-sdk/Manifold-Cam). Read their documents and codes before continuing.
 
-## Background and Technical Details
+## Background and Technical Detail
 
-Manifold will cut off video signal between gimbal camera and video transmitter, so you will NOT see the live video on the DJI GO App, until the driver is launched in transfer mode. But this is not convenient if you don't want to take-a-laptop-and-ssh-to-manifold-and-launch-the-driver-manually.
+Manifold will cut off video signal between gimbal camera and video transmitter, so you will NOT see the live video on the DJI GO App, until the camera driver is launched in transfer mode. But this is not convenient if you don't want to bring a laptop with the drone, and ssh to manifold, and launch the driver manually to view video in DJI GO App.
 
-Obviously, it's better to run the driver as a background daemon at system startup than run it manually every time. However, the driver is not reentrant, which means if a background driver instance is running, we can not run another driver instance to get the video (and show/publish to ros).
+Obviously, it's better to run the driver as a background daemon at system startup than run it manually every time. However, the driver is not reentrant, which means that if a background driver instance is running, we can not run another driver instance to get the video (and show/publish to ros).
 
-In order to solve this problem, a server which provides video acqusition service is provided in this package. And a manually launched driver with ros interface is also provided.
+In order to solve this problem, a server which provides video acqusition functionality is provided in this package. And a manually launched driver with ros interface is also provided.
 
-For manually launched driver, the source code is src/m100_x3_node.cpp. This file will initialize the X3 camera driver, read video data and publish the data as sensor_msgs/Image. Since the initialization need root privilege, you must excute ```sudo -s``` to grant root privilege before rosrun/roslaunch.
+For manually launched driver, the source code is [src/m100_x3_node.cpp](https://github.com/groundmelon/m100_x3/blob/master/src/m100_x3_node.cpp). This file will initialize the X3 camera driver, read video data and publish the data as sensor_msgs/Image. Since the initialization need root privilege, you must excute ```sudo -s``` to grant root privilege before rosrun/roslaunch.
 
-For server type driver, the server source code is src/server/src/x3server.cpp. The server will be launched automatically by the __upstart__ system in ubuntu after installed. The server will initialize the x3 camera driver, and open a TCP port @ localhost:40042, block at socket accept function. When a client is connected, accept function will return, and the server will get video data from the initialized driver and send the data to the client. If the client is unconnected, the server will go back to accept mode for the next client. Currently, server only accpet on client at the same time.
+For server type driver, the server source code is [src/server/src/x3server.cpp](https://github.com/groundmelon/m100_x3/blob/master/server/src/x3server.cpp). The server will be launched automatically by the __upstart__ system in ubuntu after installation. The server will initialize the x3 camera driver, and open a TCP port at ```localhost:40042```, blocked at socket accept function. When a client is connected, the accept function will return, and the server will get video data from the initialized driver and send the data to the client. If the connection with client is terminated, the server will go back to accept mode for the next client. Currently, server only accpets on client at the same time.
 
-The client source code is src/xxxxxx. The client will try to connect to localhost:40042, and read data and interpret it as a predefined size-and-type image, and publish it as ros message.
+The client source code is [src/m100_x3_client_node.cpp](https://github.com/groundmelon/m100_x3/blob/master/src/m100_x3_client_node.cpp). The client will try to connect to localhost:40042, and read data and interpret it as a predefined size-and-type image, and publish it as ros message.
 
 Attention: after x3 gimbal camera driver is initialized, it will have a 50% usage of one cpu core. Please consider carefully if a 50%-cpu-usage-service will affect the performance of other programs
 
