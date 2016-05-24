@@ -70,3 +70,12 @@ Same as 1, 6, 7 above
 2. Now, the server and client only support full-size grayscale image. Support of RGB and resized image should be added.
 
 3. The port number 40042 is hardcoded in src/server/include/msgdef.h. Maybe it needs to change to other port number if this one is invalid, and the client should be able to find out the new port number.
+
+## Backup for Manifold Resources
+
+djicdn links:
+    [User Manual](https://dl.djicdn.com/downloads/manifold/en/Manifold_User_Manual_en_v1.0.pdf) [用户手册](https://dl.djicdn.com/downloads/manifold/cn/Manifold_User_Manual_cn_v1.0.pdf)
+    [manifold_image_v1.0.tar.gz](https://dl.djicdn.com/downloads/manifold/manifold_image_v1.0.tar.gz)
+
+google-drive:
+    https://drive.google.com/open?id=0By08HNZRtOAYSFpPVWtFWnBfdmc
