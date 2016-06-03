@@ -2,6 +2,8 @@
 
 A ROS package which can read video stream from Zenmuse-X3-Camera on M100 and publish it as [sensor_msgs/Image](http://docs.ros.org/api/sensor_msgs/html/msg/Image.html). Must be compiled and launched on Manifold.
 
+Two types for running this package: [manully launch ROS node](https://github.com/groundmelon/m100_x3/blob/master/README.md#steps-for-manully-launched-ros-driver) or [server/client type](https://github.com/groundmelon/m100_x3/blob/master/README.md#steps-for-manully-launched-ros-driver). First one is simple, and second one is more convenient.
+
 This package is based on [dji_sdk_manifold_read_cam](https://github.com/dji-sdk/Onboard-SDK-ROS/tree/2.3/dji_sdk_manifold_read_cam) and [dji-sdk/Manifold-Cam](https://github.com/dji-sdk/Manifold-Cam). Read their documents and codes before continuing.
 
 ## Background and Technical Detail
@@ -57,7 +59,7 @@ Same as 1, 6, 7 above
 
 1. Install all the prerequisites in [dji-sdk/Manifold-Cam](https://github.com/dji-sdk/Manifold-Cam) (Mainly aims to install libdcam.so in the system)
 
-2. cd src/server && make && sudo make install. This step will install the essential scripts and excutables into the system to utilize the startup system.
+2. cd src/server && make && sudo make install. This step will install the essential scripts and executables into the system to utilize the startup system.
 
 3. You can use ```sudo service x3server start/stop/status``` to operate the x3 driver service. Useful output/log can be seen from /var/log/upstart/x3server.log
 
