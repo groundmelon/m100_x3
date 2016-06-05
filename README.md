@@ -28,7 +28,7 @@ Attention: after x3 gimbal camera driver is initialized, it will have a 50% usag
 
 1. Install all the prerequisites in [dji-sdk/Manifold-Cam](https://github.com/dji-sdk/Manifold-Cam) (Mainly aims to install libdcam.so in the system)
 
-2. (Optional) Disable lightdm for stability:
+2. (Optional or Necessary? I'm not sure) Disable lightdm for stability:
 
     in `/etc/init/lightdm.conf`, line 12:
     
