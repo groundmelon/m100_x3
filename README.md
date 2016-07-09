@@ -76,8 +76,15 @@ Same as 1, 6, 7 above
 ## Backup for Manifold Resources
 
 djicdn links:
-    [User Manual](https://dl.djicdn.com/downloads/manifold/en/Manifold_User_Manual_en_v1.0.pdf) [用户手册](https://dl.djicdn.com/downloads/manifold/cn/Manifold_User_Manual_cn_v1.0.pdf)
+    [User Manual](https://dl.djicdn.com/downloads/manifold/en/Manifold_User_Manual_en_v1.0.pdf)
+    
+    [用户手册](https://dl.djicdn.com/downloads/manifold/cn/Manifold_User_Manual_cn_v1.0.pdf)
+    
     [manifold_image_v1.0.tar.gz](https://dl.djicdn.com/downloads/manifold/manifold_image_v1.0.tar.gz)
+    
+    [manifold_kernel_source_v1.0.tar.gz](https://dl.djicdn.com/downloads/manifold/en/manifold_kernel_source_v1.0.tar.gz)
 
 google-drive:
     https://drive.google.com/open?id=0By08HNZRtOAYSFpPVWtFWnBfdmc
+    
+[How to add ft232 driver](http://elinux.org/Jetson/Tutorials/Program_An_Arduino)
